@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: "${LIVINGHUB_PROD_DB_URL}"
+    username: "${LIVINGHUB_PROD_DB_USERNAME}"
+    password: "${LIVINGHUB_PROD_DB_PASSWORD}"
+  flyway:
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate

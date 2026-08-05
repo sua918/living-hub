@@ -12,6 +12,7 @@ Phase 0 — 기반. Spring Boot 애플리케이션의 기본 실행 환경과 Po
 - Gradle Wrapper와 Spring MVC, Thymeleaf, Spring Security, Bean Validation, Actuator 의존성 구성
 - PostgreSQL, Spring Data JPA, Flyway 의존성 구성
 - Testcontainers PostgreSQL을 사용하는 애플리케이션 컨텍스트·데이터소스·JPA·Flyway 연동 테스트 기반
+- 공통·로컬·테스트·운영 Spring Profile 분리와 환경별 DB 설정 격리
 - 제품, 아키텍처, 도메인, 보안, API, 개발, 테스트 및 에이전트 작업 지침 문서
 - 에이전트 자율 local commit, 다음 작업 핸드오프, Codex Goal 적합성 판단 정책
 - 모듈형 모놀리스, 세션 기반 인증, package-by-feature 설계 결정
@@ -23,10 +24,9 @@ Phase 0 — 기반. Spring Boot 애플리케이션의 기본 실행 환경과 Po
 
 ## 다음 작업
 
-1. 공통·로컬·테스트·운영 Spring Profile을 분리하고 비밀값 외부 주입 및 테스트 DB 격리를 검증한다.
-2. 첫 도메인용 Flyway 마이그레이션과 모듈별 영속성 테스트를 기존 Testcontainers 기반 위에 추가한다.
-3. Phase 0 범위의 인증 및 사용자 소유권 기반을 구현하고 권한 경계 테스트를 추가한다.
-4. CI와 모듈 경계 테스트 기반을 마련한다.
+1. 첫 도메인용 Flyway 마이그레이션과 모듈별 영속성 테스트를 기존 Testcontainers 기반 위에 추가한다.
+2. Phase 0 범위의 인증 및 사용자 소유권 기반을 구현하고 권한 경계 테스트를 추가한다.
+3. CI와 모듈 경계 테스트 기반을 마련한다.
 
 ## 주요 결정
 
@@ -38,5 +38,4 @@ Phase 0 — 기반. Spring Boot 애플리케이션의 기본 실행 환경과 Po
 
 - 기능 모듈, 사용자 기능, 인증·인가 흐름은 아직 구현되지 않았다.
 - Flyway 마이그레이션이 아직 없어 테스트에서 적용된 마이그레이션 수는 0이다.
-- 테스트 profile 외의 공통·로컬·운영 환경 설정 분리는 아직 구성되지 않았다.
 - 최종 배포 환경, 파일 저장소, 외부 알림 제공자, 공개 REST API 제공 시점, LLM 기능의 실제 도입 범위는 미결정이다.
