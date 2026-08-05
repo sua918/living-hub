@@ -46,7 +46,7 @@ class LivinghubApplicationTests {
 		assertEquals("validate", environment.getProperty("spring.jpa.hibernate.ddl-auto"));
 		assertTrue(entityManagerFactory.isOpen());
 		assertNotNull(flyway);
-		assertEquals(0, flyway.info().applied().length);
+		assertEquals(1, flyway.info().applied().length);
 
 		try (Connection connection = dataSource.getConnection()) {
 			assertEquals("PostgreSQL", connection.getMetaData().getDatabaseProductName());
