@@ -148,6 +148,22 @@ result
 
 ### 12.1 기본 원칙
 
+에이전트는 별도 사용자 확인 없이 다음 읽기 작업을 수행할 수 있다.
+
+```text
+git status
+git diff
+git diff --cached
+git log
+git show
+현재 브랜치와 원격 추적 상태 조회
+```
+
+현재 작업과 직접 관련된 파일의 명시적 `git add`와 아래 체크포인트 조건을
+충족하는 local `git commit`도 기본 권한에 포함한다. local commit은 push 권한을
+포함하지 않으며, remote·GitHub·PR·tag·release를 변경하는 작업은 12.7과 12.8의
+승인 규칙을 따른다.
+
 - 한 커밋은 하나의 명확한 목적을 가진다. 기능 변경, 포맷 변경, 무관한 리팩터링을 섞지 않는다.
 - 각 커밋은 가능한 한 독립적으로 빌드하고 검증할 수 있는 상태여야 한다.
 - 사용자 요청 하나를 커밋 하나로 제한하지 않는다. 파일 수나 작업 시간이 아니라 기능적 완결성과 복구 가능성을 기준으로 커밋 시점을 판단한다.
@@ -368,7 +384,7 @@ push 후 `git status`, `git branch -vv`, `git log --oneline --decorate -5`로 �
 git push --force
 git push --force-with-lease
 git reset --hard
-git clean -fd
+git clean
 git rebase
 git commit --amend
 Git 이력 재작성 또는 기존 commit 삭제
