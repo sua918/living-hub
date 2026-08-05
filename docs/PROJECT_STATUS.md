@@ -16,6 +16,7 @@ Phase 0 — 기반. Spring Boot 애플리케이션의 기본 실행 환경과 Po
 - 제품, 아키텍처, 도메인, 보안, API, 개발, 테스트 및 에이전트 작업 지침 문서
 - 에이전트 자율 local commit, 다음 작업 핸드오프, Codex Goal 적합성 판단 정책
 - 모듈형 모놀리스, 세션 기반 인증, package-by-feature 설계 결정
+- 사용자명 기반 로그인과 identity 내부·외부 식별자 전략 결정
 - 로컬 Git 저장소 초기화와 GitHub Public 저장소 연결 및 최초 원격 백업
 
 ## 진행 중
@@ -33,9 +34,11 @@ Phase 0 — 기반. Spring Boot 애플리케이션의 기본 실행 환경과 Po
 - 하나의 애플리케이션과 PostgreSQL로 시작하는 모듈형 모놀리스를 사용한다. 자세한 내용은 [ADR 0001](decisions/0001-modular-monolith.md)을 참조한다.
 - 인증은 서버 세션 기반으로 설계한다. 자세한 내용은 [ADR 0002](decisions/0002-session-based-authentication.md)를 참조한다.
 - 기능별 최상위 패키지를 모듈 경계로 삼는다. 자세한 내용은 [ADR 0003](decisions/0003-package-by-feature.md)을 참조한다.
+- 초기 로그인은 정규화된 사용자명을 사용하고, 사용자 내부 PK는 외부에 노출하지 않는 `BIGINT`로 두며 외부 사용자 식별자는 실제 공개 요구가 생길 때 추가한다. 자세한 내용은 [ADR 0004](decisions/0004-identity-login-and-identifier-strategy.md)를 참조한다.
 
 ## 알려진 문제와 위험
 
 - 기능 모듈, 사용자 기능, 인증·인가 흐름은 아직 구현되지 않았다.
 - Flyway 마이그레이션이 아직 없어 테스트에서 적용된 마이그레이션 수는 0이다.
+- 계정 상태의 허용값과 초기값, 사용자 시간대 기본값, 탈퇴 시 개인정보 삭제와 사용자명 예약을 함께 만족하는 보존 방식은 아직 결정되지 않았다.
 - 최종 배포 환경, 파일 저장소, 외부 알림 제공자, 공개 REST API 제공 시점, LLM 기능의 실제 도입 범위는 미결정이다.

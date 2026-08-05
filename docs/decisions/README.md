@@ -15,5 +15,6 @@
 - `0001-modular-monolith.md`
 - `0002-session-based-authentication.md`
 - `0003-package-by-feature.md`
+- `0004-identity-login-and-identifier-strategy.md`
 
 새 ADR은 `docs/templates/ADR_TEMPLATE.md`를 복사해 작성한다.
