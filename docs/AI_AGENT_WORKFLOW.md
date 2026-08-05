@@ -118,7 +118,60 @@
 - 모든 파일 단위 수정 내용을 별도 일지에 반복하지 않는다.
   세부 diff와 커밋 단위 기록은 Git으로 관리한다.
 
-## 8. 산출물 형식
+## 8. Git 체크포인트 작업 흐름
+
+상세 기준은 `docs/DEVELOPMENT.md`의 Git 작업 규칙을 따른다. 사용자 요청 하나가 반드시 커밋 하나를 뜻하지 않으며, 작업 중 다음 흐름을 반복한다.
+
+```text
+요청 분석
+→ 구현 계획 수립
+→ 변경 수행
+→ 테스트와 검증
+→ 의미 있는 체크포인트인지 판단
+→ 관련 파일만 stage
+→ staged diff 확인
+→ local commit
+→ 다음 작업 계속
+→ 작업 범위 종료
+→ 전체 commit 목록과 검증 결과 보고
+→ 사용자에게 push 승인 요청
+```
+
+에이전트는 다음을 자동으로 수행할 수 있다.
+
+- `git status`, `git diff`, `git diff --cached`, `git log`, `git show`, `git branch` 조회
+- 현재 체크포인트와 직접 관련된 파일의 `git add`
+- 조건을 만족하는 local `git commit`과 커밋 메시지 결정
+- 안전한 작업 분리에 필요한 일반 브랜치 생성 또는 전환
+- 커밋 후 상태 검증
+
+브랜치를 만들거나 전환하기 전에는 현재 브랜치와 사용자 기존 변경을 확인해 변경을 잃거나 섞지 않는다. 부분 구현, 필수 검증 실패, 민감정보 의심, 사용자 변경과의 구분 불가 상태에서는 stage와 commit을 중단하고 이유를 보고한다.
+
+다음은 반드시 사용자 승인을 받는다.
+
+- `git push`
+- 최초 remote 추가와 기존 remote URL 변경
+- GitHub 저장소 생성 또는 공개 범위 변경
+- tag와 GitHub Release 생성
+- 보호 브랜치 설정 변경
+- Pull Request 생성 또는 병합
+- Git 이력을 바꾸거나 파일을 폐기할 수 있는 작업
+
+다음은 사용자의 명시적 지시와 검토 없이 단독으로 수행하지 않는다.
+
+- `git push --force`, `git push --force-with-lease`
+- `git reset --hard`, `git clean`, `git rebase`, `git commit --amend`
+- 기존 commit 삭제 또는 그 밖의 이력 재작성
+- 사용자 로컬 변경 폐기
+- remote 삭제 또는 덮어쓰기
+- 브랜치 강제 삭제
+- 저장소 visibility 변경
+- 인증정보를 remote URL에 포함
+- 테스트 실패를 숨기고 commit 또는 push
+
+작업 범위가 끝나면 commit마다 묻지 않고 전체 local commit 목록과 검증 결과를 한 번에 보고한 뒤 push 승인을 요청한다. 승인 전에는 추가 구현을 임의로 시작하지 않는다.
+
+## 9. 산출물 형식
 
 작업 완료 시 다음을 요약한다.
 
@@ -142,11 +195,24 @@
 - PROJECT_STATUS.md: 갱신함 또는 갱신하지 않은 이유
 - CHANGELOG.md: 갱신함 또는 갱신하지 않은 이유
 - ADR: 추가·변경 내용 또는 변경 없음
+
+Git 작업
+- 현재 브랜치:
+- 생성한 commit 수:
+- commit hash와 메시지:
+- commit별 주요 변경:
+- 실행한 테스트:
+- 테스트 결과:
+- push 여부:
+- 원격에 반영되지 않은 commit:
+- 남아 있는 미커밋 변경:
 ```
+
+자율 commit을 만들지 않았다면 `Git 작업`에 `commit하지 않음`과 이유를 적는다. push하지 않은 local commit이 있으면 보고 마지막에 remote, branch, 전체 commit 목록, 테스트 결과, 미커밋 변경과 민감정보 점검 결과를 제시하고 한 번 승인을 요청한다.
 
 명령을 실행하지 못했다면 그 사실과 이유를 명시한다.
 
-## 9. 로컬 AGENTS.md를 추가할 시점
+## 10. 로컬 AGENTS.md를 추가할 시점
 
 다음 중 하나가 있을 때만 모듈 안에 추가한다.
 
@@ -159,7 +225,7 @@
 
 단순히 루트 문서를 반복하기 위해 만들지 않는다.
 
-## 10. 로컬 지침 예시
+## 11. 로컬 지침 예시
 
 ```text
 src/main/java/com/example/livinghub/issue/AGENTS.md
@@ -168,7 +234,7 @@ src/main/java/com/example/livinghub/issue/AGENTS.md
 이 파일에는 Issue 모듈의 상태 전이, 공개 API, 이벤트,
 필수 테스트 위치만 적는다. 전체 프로젝트 규칙은 반복하지 않는다.
 
-## 11. 문서 부패 방지
+## 12. 문서 부패 방지
 
 - 구현과 문서가 다르면 같은 변경에서 수정한다.
 - 삭제된 경로를 문서 지도에 남기지 않는다.
